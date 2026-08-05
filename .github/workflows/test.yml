@@ -1,0 +1,37 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Neovim 0.12 tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install Neovim 0.12
+        env:
+          NVIM_VERSION: v0.12.4
+        run: |
+          curl \
+          --fail \
+          --location \
+          --output nvim.tar.gz \
+          "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz"
+
+          tar xzf nvim.tar.gz
+
+          echo "$PWD/nvim-linux-x86_64/bin" >> "$GITHUB_PATH"
+
+      - name: Show Neovim version
+        run: nvim --version
+
+      - name: Run tests
+        run: nvim --headless -u NONE -l tests/testing_spec.lua
