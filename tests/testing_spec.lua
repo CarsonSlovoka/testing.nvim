@@ -1,3 +1,9 @@
+local current_file = debug.getinfo(1, "S").source:sub(2)
+local tests_dir = vim.fs.dirname(vim.fs.abspath(current_file))
+local root_dir = vim.fs.dirname(tests_dir)
+
+vim.opt.runtimepath:prepend(root_dir)
+
 local testing = require("testing")
 local t = testing.new()
 -- local t = testing.new({ fail_fast = true }) -- Tip: 如果故意改錯，想要看觸發的詳細位置，可以改用這樣
