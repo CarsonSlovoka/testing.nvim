@@ -1,7 +1,7 @@
+-- 如果不想要增環境變數也可以這樣執行: `nvim -u ../lua/testing.lua -l testing_spec.lua`
 local current_file = debug.getinfo(1, "S").source:sub(2)
 local tests_dir = vim.fs.dirname(vim.fs.abspath(current_file))
 local root_dir = vim.fs.dirname(tests_dir)
-
 vim.opt.runtimepath:prepend(root_dir)
 
 local testing = require("testing")
@@ -125,7 +125,7 @@ t:test_error("故意寫錯的測試：eq", function()
 end, "MIMEType not equal octet-stream")
 
 local success = t:finish()
-
 if not success then
   vim.cmd.cquit(1) -- 可以觸發exit代碼，使得用github action cli有辦法得到錯誤
 end
+-- _ = t:finish() or vim.cmd.cquit(1) -- 以上也可以縮減成這樣
