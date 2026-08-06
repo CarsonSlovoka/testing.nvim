@@ -54,5 +54,10 @@ fd _test -e lua -X bash -c '
     echo "$(realpath $f)"
     nvim -u NORC -l $f
   done
-' bash
+' _
+
+# bash -c 'script' bash file1 file2 file3
+#                     │      │
+#                     │      └── $1, $2, ...
+#                     └───────── $0 (因此前面這個可以隨便給也沒關係)
 ```
